@@ -10,6 +10,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+/**
+ * User Database Access class
+ */
 public class JDBCUserDAOImpl implements UserDAO {
 
     /**

@@ -12,11 +12,17 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+/**
+ * Service class for user actions
+ */
 public class UserService {
 
     private boolean isExited = false;
     private String loggedInUser = null;
 
+    /**
+     * Program entry point
+     */
     public void start() {
 
         while (!isExited){
@@ -157,7 +163,7 @@ public class UserService {
         }
     }
 
-    private boolean validateNewUserDetails(String... userDetails) {
+    private boolean validateNewUserDetails(String email,String... userDetails) {
 
         for (String userDetail : userDetails) {
             if (userDetail.isEmpty()) {

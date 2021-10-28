@@ -3,6 +3,9 @@ package auth.impl;
 import auth.PasswordHandler;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
+/**
+ * General class to handle the password related operations
+ */
 public class GeneralPasswordHandlerImpl implements PasswordHandler {
 
     /**

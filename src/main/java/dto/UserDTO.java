@@ -1,5 +1,7 @@
 package dto;
-
+/**
+ * Data transfer class for the Users
+ */
 public class UserDTO {
     private String name;
     private String email;
@@ -14,16 +16,31 @@ public class UserDTO {
         this.password = password;
     }
 
+    /**
+     * Returns the name of the user
+     *
+     * @return String
+     */
     public String getName() {
 
         return name;
     }
 
+    /**
+     * Returns the email of the user
+     *
+     * @return String
+     */
     public String getEmail() {
 
         return email;
     }
 
+    /**
+     * Returns the hashed password of the user
+     *
+     * @return String
+     */
     public String getPassword() {
 
         return password;

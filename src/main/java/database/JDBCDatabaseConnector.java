@@ -10,6 +10,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
+/**
+ * JDBC Database Connector Class(Used Singleton Design Pattern)
+ */
 public class JDBCDatabaseConnector {
 
     private static Connection connection = null;
@@ -20,6 +23,11 @@ public class JDBCDatabaseConnector {
         setDBConnection();
     }
 
+    /**
+     * Enables singleton design pattern
+     *
+     * @return JDBCDatabaseConnector instance if db is null
+     */
     public static JDBCDatabaseConnector getInstance() {
 
         if(db == null){
@@ -28,6 +36,11 @@ public class JDBCDatabaseConnector {
         return db;
     }
 
+    /**
+     * Returns the initiated database connection
+     *
+     * @return Database connection
+     */
     public Connection getConnection() {
 
         return connection;
