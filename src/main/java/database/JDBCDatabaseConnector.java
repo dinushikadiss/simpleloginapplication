@@ -1,6 +1,6 @@
 package database;
 
-import util.LogConfig;
+import logging.Log;
 import util.Constants;
 import java.io.File;
 import java.io.FileReader;
@@ -59,7 +59,7 @@ public class JDBCDatabaseConnector {
                     props.getProperty("url"), props.getProperty("user"), props.getProperty("password"));
 
         } catch (ClassNotFoundException | SQLException | IOException | NullPointerException e) {
-            LogConfig.makeLog(e.getMessage());
+            Log.makeLog(e.getMessage());
 
         } finally {
             try {

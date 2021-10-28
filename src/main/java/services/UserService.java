@@ -6,7 +6,7 @@ import dao.impl.JDBCUserDAOImpl;
 import dto.UserDTO;
 import exceptions.InputInvalidException;
 import exceptions.UserRegistrationFailedException;
-import util.LogConfig;
+import logging.Log;
 import util.Constants;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -93,70 +93,11 @@ public class UserService {
             if(isLoggedIn()) {
                 System.out.println(Constants.ALREADY_LOGGED_IN_MESSAGE);
             } else {
-                Scanner input = new Scanner(System.in);
-                System.out.print("Email: ");
-                String email = input.nextLine();
-                System.out.print("Password: ");
-                String password = input.nextLine();
-
-                boolean isValidUserDetails = validateNewUserDetails(email,password);
-                if(!isValidUserDetails){
-                    throw new InputInvalidException(Constants.USER_REGISTRATION_INVALID_USER_DETAILS);
-                }
-
-                UserDTO existingUser = getUser(email);
-                if(existingUser == null){
-                    LogConfig.makeLog(Constants.FAILED_LOGIN+email);
-                    System.out.println(Constants.CREDENTIALS_INVALID);
-                }else {
-                    GeneralPasswordHandlerImpl passwordHandler = new GeneralPasswordHandlerImpl();
-                    boolean validCredentials = passwordHandler.matchPasswords(password,existingUser.getPassword());
-                    if (validCredentials){
-                        LogConfig.makeLog(Constants.SUCCESS_LOGIN+email);
-                        loggedInUser = existingUser.getEmail();
-                        System.out.println(Constants.LOGGED_IN_MESSAGE);
-                    }else {
-                        LogConfig.makeLog(Constants.FAILED_LOGIN+email);
-                        System.out.println(Constants.CREDENTIALS_INVALID);
-                    }
-                }
+                loginUser();
             }
 
         }else if (action == Constants.ACTION_REGISTER){
-
-            Scanner input = new Scanner(System.in);
-            System.out.println("\nRegistering New User\n");
-            System.out.print("Email: ");
-            String email = input.nextLine();
-            System.out.print("Name: ");
-            String name = input.nextLine();
-            System.out.print("Password: ");
-            String password = input.nextLine();
-
-            boolean isValidUserDetails = validateNewUserDetails(email,name,password);
-            if(!isValidUserDetails){
-                throw new InputInvalidException(Constants.USER_REGISTRATION_INVALID_USER_DETAILS);
-            }
-
-            boolean isValidEmail = isValidEmail(email);
-            if(!isValidEmail){
-                throw new InputInvalidException(Constants.INVALID_EMAIL);
-            }
-
-            UserDTO existingUser = getUser(email);
-            if(existingUser == null){
-                GeneralPasswordHandlerImpl passwordHandler = new GeneralPasswordHandlerImpl();
-                UserDTO user = new UserDTO(email, name, passwordHandler.encryptPassword(password));
-                boolean isAdded = addUser(user);
-                if(isAdded){
-                    System.out.println(Constants.USER_ADDED_MESSAGE+"\n");
-                } else {
-                    throw new UserRegistrationFailedException(Constants.USER_REGISTRATION_FAILED_MESSAGE);
-                }
-            } else {
-                System.out.println(Constants.USER_EXISTS+"\n");
-            }
-
+            registerUser();
         } else if (action == Constants.ACTION_LIST_USERS){
 
             if(isLoggedIn()){
@@ -169,8 +110,74 @@ public class UserService {
         }
     }
 
-    private boolean validateNewUserDetails(String... userDetails) {
+    private void loginUser() throws InputInvalidException {
+        Scanner input = new Scanner(System.in);
+        System.out.print("Email: ");
+        String email = input.nextLine();
+        System.out.print("Password: ");
+        String password = input.nextLine();
 
+        boolean isValidUserDetails = validateNewUserDetails(email,password);
+        if(!isValidUserDetails){
+            throw new InputInvalidException(Constants.USER_REGISTRATION_INVALID_USER_DETAILS);
+        }
+
+        UserDTO existingUser = getUser(email);
+        if(existingUser == null){
+            Log.makeLog(Constants.FAILED_LOGIN+email);
+            System.out.println(Constants.CREDENTIALS_INVALID);
+        }else {
+            GeneralPasswordHandlerImpl passwordHandler = new GeneralPasswordHandlerImpl();
+            boolean validCredentials = passwordHandler.matchPasswords(password,existingUser.getPassword());
+            if (validCredentials){
+                Log.makeLog(Constants.SUCCESS_LOGIN+email);
+                loggedInUser = existingUser.getEmail();
+                System.out.println(Constants.LOGGED_IN_MESSAGE);
+            }else {
+                Log.makeLog(Constants.FAILED_LOGIN+email);
+                System.out.println(Constants.CREDENTIALS_INVALID);
+            }
+        }
+    }
+
+    private void registerUser() throws InputInvalidException, UserRegistrationFailedException {
+
+        Scanner input = new Scanner(System.in);
+        System.out.println("\nRegistering New User\n");
+        System.out.print("Email: ");
+        String email = input.nextLine();
+        System.out.print("Name: ");
+        String name = input.nextLine();
+        System.out.print("Password: ");
+        String password = input.nextLine();
+
+        boolean isValidUserDetails = validateNewUserDetails(email,name,password);
+        if(!isValidUserDetails){
+            throw new InputInvalidException(Constants.USER_REGISTRATION_INVALID_USER_DETAILS);
+        }
+
+        boolean isValidEmail = isValidEmail(email);
+        if(!isValidEmail){
+            throw new InputInvalidException(Constants.INVALID_EMAIL);
+        }
+
+        UserDTO existingUser = getUser(email);
+        if(existingUser == null){
+            GeneralPasswordHandlerImpl passwordHandler = new GeneralPasswordHandlerImpl();
+            UserDTO user = new UserDTO(email, name, passwordHandler.encryptPassword(password));
+            boolean isAdded = addUser(user);
+            if(isAdded){
+                Log.makeLog(Constants.SUCCESS_REGISTRATION+email);
+                System.out.println(Constants.USER_ADDED_MESSAGE+"\n");
+            } else {
+                throw new UserRegistrationFailedException(Constants.USER_REGISTRATION_FAILED_MESSAGE);
+            }
+        } else {
+            System.out.println(Constants.USER_EXISTS+"\n");
+        }
+    }
+
+    private boolean validateNewUserDetails(String... userDetails) {
 
         for (String userDetail : userDetails) {
             if (userDetail.isEmpty()) {

@@ -38,4 +38,5 @@ public class Constants {
     //Logs messages
     public static final String FAILED_LOGIN = "Invalid login with Email : ";
     public static final String SUCCESS_LOGIN = "Successful login with Email : ";
+    public static final String SUCCESS_REGISTRATION = "Successful user registration - Email : ";
 }
