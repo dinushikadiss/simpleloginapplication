@@ -1,5 +1,11 @@
 package dao;
 
+import dto.UserDTO;
+import java.util.ArrayList;
+
 public interface UserDAO {
-    boolean searchUser
+
+    UserDTO findUser(String email);
+    boolean addUser(UserDTO user);
+    ArrayList<String> getAllUsers();
 }
