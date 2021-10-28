@@ -98,7 +98,7 @@ modules.xml
 # Compiled class file
 *.class
 
-# LogConfig file
+# Log file
 *.log
 
 # BlueJ files

@@ -30,12 +30,12 @@ public class Constants {
     public static final String QUERY_GET_USER = "SELECT * FROM user WHERE user.email=?";
     public static final String QUERY_GET_ALL_USERS = "SELECT * FROM user";
 
-    //DB Fields
+    // DB Fields
     public static final String DB_FIELD_USER_NAME = "name";
     public static final String DB_FIELD_USER_EMAIL = "email";
     public static final String DB_FIELD_USER_PASSWORD = "password";
 
-    //Logs messages
+    // Logs messages
     public static final String FAILED_LOGIN = "Invalid login with Email : ";
     public static final String SUCCESS_LOGIN = "Successful login with Email : ";
     public static final String SUCCESS_REGISTRATION = "Successful user registration - Email : ";
