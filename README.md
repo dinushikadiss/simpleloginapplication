@@ -7,3 +7,7 @@ Simple login and registration command-line application
 - Run the program
 - Enter valid entries with pressing enter key in the keyboard
   - Valid entries(1,2,3,4 or 5)
+
+#Dependencies
+  - mysql-connector-java
+  - spring-security-core

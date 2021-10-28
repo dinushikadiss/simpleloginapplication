@@ -9,7 +9,7 @@ public class Constants {
     public static final int ACTION_LOGOUT = 5;
 
     // Messages
-    public static final String USER_REGISTRATION_INVALID_USER_DETAILS = "Invalid new user details";
+    public static final String USER_REGISTRATION_INVALID_USER_DETAILS = "All fields should be filled";
     public static final String USER_ADDED_MESSAGE = "User added successfully";
     public static final String USER_REGISTRATION_FAILED_MESSAGE = "User registration failed";
     public static final String USER_EXISTS = "User already exists";
@@ -17,7 +17,7 @@ public class Constants {
     public static final String LOGGED_IN_MESSAGE = "Successfully logged in!";
     public static final String ALREADY_LOGGED_IN_MESSAGE = "Already logged in!";
     public static final String INVALID_INPUT = "Invalid input";
-
+    public static final String INVALID_EMAIL = "Invalid email";
 
     // database configuration file path
     public static final String DB_CONFIG_FILE_PATH = "config.properties";

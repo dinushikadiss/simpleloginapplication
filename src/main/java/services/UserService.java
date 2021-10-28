@@ -11,6 +11,7 @@ import util.Constants;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 /**
  * Service class for user actions
@@ -137,6 +138,11 @@ public class UserService {
                 throw new InputInvalidException(Constants.USER_REGISTRATION_INVALID_USER_DETAILS);
             }
 
+            boolean isValidEmail = isValidEmail(email);
+            if(!isValidEmail){
+                throw new InputInvalidException(Constants.INVALID_EMAIL);
+            }
+
             UserDTO existingUser = getUser(email);
             if(existingUser == null){
                 GeneralPasswordHandlerImpl passwordHandler = new GeneralPasswordHandlerImpl();
@@ -163,7 +169,8 @@ public class UserService {
         }
     }
 
-    private boolean validateNewUserDetails(String email,String... userDetails) {
+    private boolean validateNewUserDetails(String... userDetails) {
+
 
         for (String userDetail : userDetails) {
             if (userDetail.isEmpty()) {
@@ -171,6 +178,12 @@ public class UserService {
             }
         }
         return true;
+    }
+
+    private boolean isValidEmail(String email) {
+
+        final Pattern EMAIL_REGEX = Pattern.compile("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", Pattern.CASE_INSENSITIVE);
+        return EMAIL_REGEX.matcher(email).matches();
     }
 
     private UserDTO getUser(String email) {
